@@ -1,0 +1,64 @@
+#include <iostream>
+
+#include "defines.h"
+#include "Window.h"
+
+extern float UNIT_WIDTH;
+extern float UNIT_HEIGHT;
+
+int SCREEN_WIDTH  = 12*32.1;
+int SCREEN_HEIGHT = 20*32.1;
+
+void Window::Init() 
+{
+  if (SDL_Init(SDL_INIT_EVERYTHING) == -1){
+    std::cout << SDL_GetError() << std::endl;
+    return;
+  }
+  TTF_Init();
+  window = SDL_CreateWindow("Luudddduuummmm Dddaaarrreeeee", SDL_WINDOWPOS_CENTERED,
+                            SDL_WINDOWPOS_CENTERED, 320*2, 480*2, SDL_WINDOW_SHOWN);
+  if (window == nullptr){
+    std::cout << SDL_GetError() << std::endl;
+    return;
+  }
+  
+  renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED
+                                | SDL_RENDERER_PRESENTVSYNC);
+
+  // we need to match the required aspect ratios
+  SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+  if (renderer == nullptr){
+    std::cout << SDL_GetError() << std::endl;
+    return;
+  }
+}
+
+void Window::Draw(SDL_Texture*, ...) 
+{
+
+}
+
+void Window::Clear() 
+{
+
+}
+
+void Window::Present() 
+{
+
+}
+
+Window::Window() 
+{
+  return;
+}
+
+Window::~Window() 
+{
+  
+  return;
+}
+
+

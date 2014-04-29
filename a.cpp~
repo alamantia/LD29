@@ -1,0 +1,907 @@
+// ludum dare 27
+#include <iostream>
+#include <string>
+#include <list>
+#include <map>
+#include <algorithm>
+#include <functional>
+
+#include "simplexnoise.h"
+#include "defines.h"
+#include "Drop.h"
+
+using namespace std;
+
+extern  int   game_mode;
+extern  float box_height;
+extern  float box_width;
+extern float UNIT_HEIGHT;
+extern float UNIT_WIDTH;
+
+int right_wall = RIGHT_WALL;
+int left_wall  = LEFT_WALL;
+
+extern int SCREEN_WIDTH;
+extern int SCREEN_HEIGHT;
+
+int fucking_timer = 0;
+
+extern Window *_window;
+extern Audio  *_audio;
+extern Camera *_camera;
+
+
+SDL_Renderer *renderer = nullptr;
+SDL_Texture  *pics[TEXTURE_SIZE];
+
+float dir_speed = 15.0f;
+float max_vel   = 30.0f;
+b2World *world;
+
+float force = 80;
+static bool j_is_up = true;
+
+Thing *player;
+
+list<Thing *> things;
+list<Thing *> thingsToDrop;
+
+bool mouse_down = false;
+
+float mouse_x1 = 0;
+float mouse_y1 = 0;
+
+float mouse_x2 = 0;
+float mouse_y2 = 0;
+
+void ColorToggle(Thing *obj) {
+  switch (obj->c) {
+  case COLOR_1: 
+    obj->c = COLOR_2;
+    break;
+  case COLOR_2: 
+    obj->c = COLOR_3;
+    break;
+  case COLOR_3:
+    obj->c = COLOR_4;
+    break;
+  case COLOR_4:
+    obj->c = COLOR_1;
+    break;
+  }
+}
+
+void PlayerContactEnd(Thing *player, void *object) {
+  player->t = T_NONE;
+  if (object == NULL) {
+    return;
+  }
+  if (*(int *)object == RIGHT_WALL) {
+    player->t = T_NONE;
+    return;
+  }
+  if (*(int *)object == LEFT_WALL) {
+    player->t = T_NONE;
+    return;
+  }
+}
+
+bool dead = false;
+
+void fucking_dead()
+{
+  dead = false;
+  list<Thing *> keep;
+  for (auto it = things.begin(); it != things.end(); ++it) {
+    Thing *thing = *it;
+    if (thing->type != LOL_BOX)
+      continue;
+    keep.push_back(thing);
+    world->DestroyBody(thing->body);
+  }
+  for (auto it = keep.begin();  it != keep.end(); ++it) {
+    things.remove(*it);
+  }
+  for (auto it = thingsToDrop.begin(); it != thingsToDrop.end(); ++it) {
+    Thing *thing = *it;
+    world->DestroyBody(thing->body);
+  }
+  thingsToDrop.clear();
+  reset_drop();
+  return;
+}
+
+void PlayerContactStart(Thing *player, void *object) {
+  player->t = T_NONE;
+  if (*(int *)object == RIGHT_WALL) {
+    if (player->j == true) 
+      player->t = T_RIGHT;
+    return;
+  }
+  if (*(int *)object == LEFT_WALL) {
+    if (player->j == true)
+      player->t = T_LEFT;
+    return;
+  }
+  Thing *obj = (Thing *) object;
+  if (obj->type == LOL_BOX) {
+    b2Vec2 p1 = player->body->GetPosition();
+    b2Vec2 p2 = obj->body->GetPosition();
+    //ColorToggle(obj);
+    if (player->j == true) {
+      ColorToggle(obj);
+      player->j = false;
+    }
+    float diffy =  ( (p1.y * BOX_SCALE)  - (p2.y * BOX_SCALE));
+    float diffx =  ( (p1.x * BOX_SCALE)  - (p2.x * BOX_SCALE));
+    if (diffy >= 15) {
+      if (diffx >= -19 && diffx <= (UNIT_WIDTH/2)) {
+        dead = true;
+        return;
+      }
+    }
+    if (diffy <= -20) {
+      player->j = false;
+    }
+    if ( ( (p1.y * BOX_SCALE)  - (p2.y * BOX_SCALE)) <= -UNIT_WIDTH ) {
+      player->j = false;
+      float x = (  (p1.x * BOX_SCALE) - (p2.x * BOX_SCALE) );
+      if (abs(x) >= 29.0)
+        return;
+      if (player->j == true) {
+        player->j = false;
+      }
+      return;
+    }
+    if (p1.x > p2.x) {
+      if (player->j == true) {
+      
+      }
+    }
+    if (p2.x > p1.x) {
+      if (player->j == true) {
+        
+      }
+      return;
+    }
+  }  
+  return;
+}
+
+class Contactz : public b2ContactListener
+{
+  void BeginContact(b2Contact *contact) {
+    void* fA = contact->GetFixtureA()->GetBody()->GetUserData();
+    void* fB = contact->GetFixtureB()->GetBody()->GetUserData();
+    player->t = T_NONE;
+    if (fA == player && fB == NULL) {
+      player->j = false;
+      player->t = T_NONE;
+    }
+    
+    if (fB == player && fA == NULL) {
+      player->j = false;
+      player->t = T_NONE;
+    }
+
+    if (fA != NULL && fB != NULL) {
+      if (fA == player) {
+        PlayerContactStart((Thing *)fA, fB);
+        return;
+      } else if (fB == player) {
+        PlayerContactStart((Thing *)fB, fA);
+        return;
+      }
+    }
+
+    if (fA != NULL) {
+      int v = (*(int *)fA);
+      if (v != RIGHT_WALL && v != LEFT_WALL) {
+        Thing *a = (Thing *) fA;
+        if (a->type == LOL_BOX) {
+          a->body->ApplyLinearImpulse(b2Vec2(0, 20.0), a->body->GetPosition());
+        }
+      }
+    }
+    
+    if (fB != NULL) {
+      int v = (*(int *)fB);
+      if (v != RIGHT_WALL && v != LEFT_WALL) {
+        Thing *b = (Thing *)fB;
+        if (b->type == LOL_BOX) {
+          b->body->ApplyLinearImpulse(b2Vec2(0, 20.0), b->body->GetPosition());
+        }
+      }
+    }
+    
+
+  }
+  void EndContact(b2Contact *contact) {
+    void* fA = contact->GetFixtureA()->GetBody()->GetUserData();
+    void* fB = contact->GetFixtureB()->GetBody()->GetUserData();
+    if (fA != NULL && fB != NULL) {
+      if (fA == player) {
+        PlayerContactEnd((Thing *)fA, fB);
+      } else if (fB == player) {
+        PlayerContactEnd((Thing *)fB, fA);
+      }
+    }
+  }
+};
+Contactz contactz;
+SDL_Texture* LoadImage(std::string file){
+  SDL_Texture* tex = nullptr;
+  tex = IMG_LoadTexture(renderer, file.c_str());
+  if (tex == nullptr) {
+    cout << "Error" << "endl";
+  }
+  return tex;
+}
+
+void ApplySurface(int x, int y, SDL_Texture *tex, SDL_Renderer *rend){
+  SDL_Rect pos;
+  pos.x = x;
+  pos.y = y;
+  SDL_QueryTexture(tex, NULL, NULL, &pos.w, &pos.h);
+  SDL_RenderCopy(rend, tex, NULL, &pos);
+}
+
+void renderTexture(SDL_Texture *tex, SDL_Renderer *ren, int x, int y, int w, int h){
+  SDL_Rect dst;
+  dst.x = x;
+  dst.y = y;
+  dst.w = w;
+  dst.h = h;
+  SDL_RenderCopy(ren, tex, NULL, &dst);
+}
+
+SDL_Texture* RenderText(std::string message, std::string fontFile, SDL_Color color, int fontSize){
+  TTF_Font *font = nullptr;
+  font = TTF_OpenFont(fontFile.c_str(), fontSize);
+  
+  SDL_Surface *surf = TTF_RenderText_Blended(font, message.c_str(), color);
+  SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surf);
+  
+  SDL_FreeSurface(surf);
+  TTF_CloseFont(font);
+  return texture;
+}
+
+SDL_Texture *background;
+SDL_Texture *whale_pic;
+SDL_Texture *boat_pic;
+
+void random_shit()
+{
+  return;
+}
+
+void physics_shit()
+{
+  bool doSleep = false;
+  b2Vec2 gravity(0.0, 30.0f);
+  world = new  b2World(gravity, doSleep);
+  world->SetContactListener(&contactz);
+
+  b2BodyDef groundBodyDef;
+  groundBodyDef.position.Set(0.0f, ( (SCREEN_HEIGHT)/BOX_SCALE));
+ 
+  b2Body* groundBody = world->CreateBody(&groundBodyDef);
+  b2PolygonShape groundBox;
+  groundBox.SetAsBox(SCREEN_WIDTH/BOX_SCALE, (UNIT_HEIGHT/2) /BOX_SCALE);
+  groundBody->CreateFixture(&groundBox, 0.0f);
+ 
+  b2BodyDef rightWallBodyDef;
+  rightWallBodyDef.userData = &right_wall;
+  rightWallBodyDef.position.Set((SCREEN_WIDTH/BOX_SCALE)-1.5, 0);
+  b2Body* rightWallBody = world->CreateBody(&rightWallBodyDef);
+  b2PolygonShape rightWallBox;
+  rightWallBox.SetAsBox(0.1/BOX_SCALE, SCREEN_HEIGHT/BOX_SCALE);
+  rightWallBody->CreateFixture(&rightWallBox, 0.0f);
+
+  
+  b2BodyDef leftWallBodyDef;
+  leftWallBodyDef.userData = &left_wall;
+  leftWallBodyDef.position.Set(-2.1, 0);
+  b2Body* leftWallBody = world->CreateBody(&leftWallBodyDef);
+  b2PolygonShape leftWallBox;
+  leftWallBox.SetAsBox(0.1/BOX_SCALE, SCREEN_HEIGHT/BOX_SCALE);
+  leftWallBody->CreateFixture(&leftWallBox, 0.0f);
+  
+  b2BodyDef bodyDef;
+  bodyDef.type = b2_dynamicBody;
+  bodyDef.position.Set(0.0f, SCREEN_HEIGHT/BOX_SCALE);
+  bodyDef.fixedRotation = true;
+  
+  bodyDef.userData = player;
+  b2Body* body = world->CreateBody(&bodyDef);
+  
+  b2PolygonShape dynamicBox;
+  dynamicBox.SetAsBox((UNIT_WIDTH/4)/BOX_SCALE, (UNIT_WIDTH/4)/BOX_SCALE);
+  
+  b2FixtureDef fixtureDef;
+  fixtureDef.shape = &dynamicBox;
+  fixtureDef.density = 3.0f;
+  fixtureDef.friction = 0.0f;  
+  fixtureDef.restitution = 0.05f;
+  body->CreateFixture(&fixtureDef);
+  player->body = body;
+  return;
+}
+
+Thing * place_shit_with_physics(int type, int x, int y)
+{
+  Thing *obj = new Thing();
+  obj->type = type;
+  
+  b2BodyDef bodyDef;
+  bodyDef.type = b2_dynamicBody;
+  bodyDef.position.Set(x/BOX_SCALE, y/BOX_SCALE);
+  bodyDef.userData = obj;
+  bodyDef.fixedRotation = true;
+  bodyDef.bullet = false;
+  b2Body* body = world->CreateBody(&bodyDef);
+  
+  b2PolygonShape dynamicBox;
+  dynamicBox.SetAsBox( ((UNIT_WIDTH/2) - 0.1) /BOX_SCALE, (UNIT_HEIGHT/2) /BOX_SCALE);
+  
+  b2FixtureDef fixtureDef;
+  fixtureDef.shape = &dynamicBox;
+  fixtureDef.density     = 10000.0f;
+  fixtureDef.friction    = 1.0f;  
+  fixtureDef.restitution = 0.0f;
+
+  body->CreateFixture(&fixtureDef);
+
+  obj->body = body;
+  obj->w = UNIT_WIDTH;
+  obj->h = UNIT_HEIGHT;
+  obj->x = x;
+  obj->y = y;
+  obj->c = rand() % 4;
+  obj->c_d = SDL_GetTicks();
+  obj->r_t = 1000;
+  thingsToDrop.push_back(obj);
+  body->SetActive(false);
+
+  return obj;
+}
+
+typedef struct
+{
+    SDL_AudioDeviceID dev;
+    int soundpos;
+    volatile int done;
+} callback_data;
+
+void load_shit()
+{
+  Thing *obj = new Thing();
+  obj->x = 0;
+  obj->y = SCREEN_HEIGHT/BOX_SCALE;
+  obj->w  = UNIT_WIDTH/2;
+  obj->h  = UNIT_HEIGHT/2;
+  obj->type = LOL_PLAYER;
+  things.push_back(obj);
+  player = obj;
+  physics_shit();
+
+  pics [TEXTURE_PLAYER_1] = LoadImage("boat.bmp");
+  
+  pics [TEXTURE_CUBE_1] = LoadImage("box_1.bmp");
+  pics [TEXTURE_CUBE_2] = LoadImage("box_2.bmp");
+  pics [TEXTURE_CUBE_3] = LoadImage("box_3.bmp");
+  pics [TEXTURE_CUBE_4] = LoadImage("box_4.bmp");
+  
+  b2Vec2 force = b2Vec2(13,0);
+  player->d = DIR_NONE;
+  player->j = false;
+  return;
+}
+
+void clocking_shit()
+{
+  float32 timeStep = 1.0f / 30.0f;
+  int velocityIterations = 8;
+  int positionIterations = 3;
+  world->Step(timeStep, velocityIterations, positionIterations);
+  world->ClearForces();
+  return;
+}
+
+Thing * boxForPosition(int x, int y)
+{
+  for (auto i = things.begin(); i != things.end(); ++i) {
+    Thing *p = *i;
+    if (p->type != LOL_BOX)
+      continue;
+    b2Vec2 pos   = p->body->GetPosition();
+    b2Vec2 speed = p->body->GetLinearVelocity();
+    
+    float pos_x = 0.0;
+    float pos_y = 0.0;
+    
+    //if (abs(speed.y) >= 0.01)
+    //  return NULL;
+
+    if (pos.x * BOX_SCALE == 0.0) {
+      pos_x = 0.0;
+    } else {
+      pos_x = (pos.x * BOX_SCALE) / (UNIT_WIDTH);
+    }
+    
+    if (pos.y == 0.0) {
+      pos_y = 0.0;
+    } else {
+      pos_y = (pos.y * BOX_SCALE) / UNIT_HEIGHT;
+    }
+   
+    //pos_x = floor( (pos_x) + 0.50);
+    pos_y = floor( (pos_y) + 0.50);
+    
+    if ((int)pos_x == x && (int) pos_y == y) {
+      return p;
+    }
+  }
+  return NULL;
+}
+
+
+void matching_shit()
+{
+  list <Thing *> killTheseThings;
+  list <Thing *> maybeKillTheseThings;
+
+  Thing *grid[BOX_WIDTH][BOX_HEIGHT];
+  Thing *gridTmp[BOX_WIDTH][BOX_HEIGHT];
+
+  memset(&grid, 0, sizeof(grid));
+  for (int x = 0; x < BOX_WIDTH; x++)
+    for (int y = BOX_HEIGHT; y >= 0; y--) {
+      grid[x][y] = boxForPosition(x, y);
+    }
+  
+  memcpy(&gridTmp, &grid, sizeof(gridTmp));
+  for (int y = 0; y < BOX_HEIGHT; y++) {
+    for (int x = 0; x < BOX_WIDTH; x++) {
+      memcpy(&grid, &gridTmp, sizeof(grid));
+      maybeKillTheseThings.clear();
+      Thing *a = grid[x][y];
+      if (a == NULL) 
+        continue;
+      
+      //printf("Box at %i %i\n", x, y);
+      /* go right */
+      
+      for (int i1 = x+1; i1 < BOX_WIDTH; i1++) {
+        Thing *b = grid[i1][y];
+        if (b == NULL)
+          break;
+        if (b->c != a->c) 
+          break;
+        maybeKillTheseThings.push_back(b);
+        grid[i1][y] = NULL;
+      }
+      
+      /*
+      // up
+      for (int i2 = y-1; y < 0; i2--) {
+        Thing *b = grid[x][i2];
+        if (b == NULL)
+          break;
+        if (b->c != a->c) 
+          break;
+        maybeKillTheseThings.push_back(b);
+        grid[x][i2] = NULL;
+      }
+      
+      //down
+      for (int i2 = y+1; y < BOX_HEIGHT; i2++) {
+        Thing *b = grid[x][i2];
+        if (b == NULL)
+          break;
+        if (b->c != a->c) 
+          break;
+        maybeKillTheseThings.push_back(b);
+        grid[x][i2] = NULL;
+      }
+      */
+
+      if (maybeKillTheseThings.size() > 0) {
+        maybeKillTheseThings.push_back(a);
+        grid[x][y] = NULL;
+      }   
+      
+      
+      if (maybeKillTheseThings.size() >= 3) {
+        for (auto it =  maybeKillTheseThings.begin(); it != maybeKillTheseThings.end(); ++it) {
+          Thing *bye = *it;
+          things.remove(*it);
+          world->DestroyBody(bye->body);          
+          memset(&grid, 0, sizeof(grid));
+          for (int x = 0; x < BOX_WIDTH; x++)
+            for (int y = BOX_HEIGHT; y >= 0; y--) {
+                grid[x][y] = boxForPosition(x, y);
+                gridTmp[x][y] = boxForPosition(x, y);
+            }            
+        }
+      }
+    }
+  }
+  return;
+}
+
+int t_10 = time(0);
+int t_c = 0;
+float push_vel = 40.0f;
+
+void draw_background()
+{
+  SDL_Rect pos;
+
+  pos.x = 0;
+  pos.y = 0;
+  pos.w = SCREEN_WIDTH;
+  pos.h = SCREEN_HEIGHT;
+  SDL_SetRenderDrawColor(renderer, 230, 230, 230, 255);
+  SDL_RenderFillRect(renderer, &pos);
+  
+  float s_height = SCREEN_WIDTH / 6;
+  
+  float r = 100;
+  float g = 100;
+  float b = 100;
+
+  for (float s_y = 0; s_y < SCREEN_HEIGHT; s_y += s_height) {
+    pos.x = 0;
+    pos.y = s_y;
+    pos.w = SCREEN_WIDTH;
+    pos.h = s_height;
+    SDL_SetRenderDrawColor(renderer, r, g, b, 255);
+    SDL_RenderFillRect(renderer, &pos);
+    r -= 5;
+    g -= 5;
+    b -= 5;
+  }
+  
+  return;
+}
+
+void draw_game_shit()
+{
+  b2Vec2 p_v = player->body->GetLinearVelocity();
+  if (p_v.x > max_vel) {
+    p_v.x = max_vel;
+  } else if (p_v.x < -max_vel) {
+    p_v.x = -max_vel;
+  }
+  player->body->SetLinearVelocity(p_v);
+  clocking_shit();
+  SDL_RenderClear(renderer);
+  
+  draw_background();
+
+  for_each(things.begin(), things.end(), 
+           [](Thing *thing) { 
+             if (thing->type == LOL_PLAYER) {
+               b2Vec2 position = thing->body->GetPosition();
+               SDL_Rect rect;
+               rect.x = POS_X ((position.x * BOX_SCALE) + (thing->w/2));
+               rect.y = POS_Y((position.y * BOX_SCALE) + (thing->h/2));
+               rect.w  = thing->w;
+               rect.h  = thing->h;
+               
+               SDL_SetRenderDrawColor(renderer, 200, 0, 0, 255);
+             
+               renderTexture(pics[TEXTURE_CUBE_1], renderer,
+                             rect.x,
+                             rect.y,
+                             (UNIT_WIDTH/2), (UNIT_HEIGHT/2));
+               
+
+               
+               if (player->d == DIR_LEFT) {
+                 b2Vec2 force = b2Vec2(-dir_speed, player->body->GetLinearVelocity().y);
+                 player->body->ApplyLinearImpulse(b2Vec2(-dir_speed,0.0), player->body->GetPosition() );
+               } else if (player->d == DIR_RIGHT) {
+                 b2Vec2 force = b2Vec2(dir_speed, player->body->GetLinearVelocity().y);
+                 player->body->ApplyLinearImpulse(b2Vec2(dir_speed,0.0), player->body->GetPosition() );
+                                  
+               }
+
+             }
+             if (thing->type == LOL_BOX) {
+               b2Vec2 position = thing->body->GetPosition();
+               position.x = thing->x/BOX_SCALE;
+               b2Vec2 velocity = thing->body->GetLinearVelocity();
+               if (velocity.y <= 1.0) {
+                 float pos_x = 0.0;
+                 float pos_y = 0.0;
+                 if (position.x * BOX_SCALE == 0.0) {
+                   pos_x = 0.0;
+                 } else {
+                   pos_x = (position.x * BOX_SCALE) / UNIT_WIDTH;
+                 }
+                 
+                 if (position.y * BOX_SCALE == 0.0) {
+                   pos_y = 0.0;
+                 } else {
+                   pos_y = (position.y * BOX_SCALE) / UNIT_HEIGHT;
+                 }
+                 pos_x = floor( (pos_x) + 0.40);
+                 pos_y = floor( (pos_y) + 0.40);
+               }
+               position = thing->body->GetPosition();
+               position.x = thing->x/BOX_SCALE;
+               thing->body->SetTransform(b2Vec2(position.x, position.y), 0.0f);
+               SDL_Rect rect;
+               rect.x = POS_X((position.x * BOX_SCALE));
+               rect.y = POS_Y((position.y * BOX_SCALE));
+               rect.w  = thing->w;
+               rect.h  = thing->h;
+               
+               if (thing->c == COLOR_1) {
+                 SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+
+                 renderTexture(pics[TEXTURE_CUBE_1], renderer,
+                               position.x * BOX_SCALE,
+                               position.y * BOX_SCALE,
+                               UNIT_WIDTH, UNIT_HEIGHT);
+               } else if (thing->c == COLOR_2) {
+                 renderTexture(pics[TEXTURE_CUBE_2], renderer,
+                               position.x * BOX_SCALE,
+                               position.y * BOX_SCALE,
+                               UNIT_WIDTH, UNIT_HEIGHT);
+               } else if (thing->c == COLOR_3) {
+                 renderTexture(pics[TEXTURE_CUBE_3], renderer,
+                               position.x * BOX_SCALE,
+                               position.y * BOX_SCALE,
+                               UNIT_WIDTH, UNIT_HEIGHT);
+               } else if (thing->c == COLOR_4) {
+                 renderTexture(pics[TEXTURE_CUBE_4], renderer,
+                               position.x * BOX_SCALE,
+                               position.y * BOX_SCALE,
+                               UNIT_WIDTH, UNIT_HEIGHT);
+               }
+
+               
+               /*
+                 ApplySurface(position.x * BOX_SCALE,
+                 position.y * BOX_SCALE,
+                 pics[PIC_BOX_1], 
+                 renderer);
+               */
+             }
+           });  
+  
+  list<Thing *> transfer;
+  for_each(thingsToDrop.begin(), thingsToDrop.end(), 
+           [&transfer](Thing *thing) { 
+             if (thing->type != LOL_BOX)
+               return;
+             b2Vec2 position = thing->body->GetPosition();
+             position.x = thing->x/BOX_SCALE;
+             thing->body->SetTransform(b2Vec2(position.x, position.y), 0.0f);
+             
+             SDL_Rect rect;
+             rect.x = POS_X((position.x * BOX_SCALE));
+             rect.y = POS_Y((position.y * BOX_SCALE));
+             rect.w  = thing->w;
+             rect.h  = thing->h;
+             
+             if (thing->c == COLOR_1) {
+               SDL_SetRenderDrawColor(renderer, 125, 20, 200, 255);
+             } else if (thing->c == COLOR_2) {
+               SDL_SetRenderDrawColor(renderer, 77, 232, 190, 255);
+             } else if (thing->c == COLOR_3) {
+               SDL_SetRenderDrawColor(renderer, 255, 150, 61, 255);
+             } else if (thing->c == COLOR_4) {
+                 SDL_SetRenderDrawColor(renderer, 123, 12, 61, 255);
+             }
+             
+             //SDL_RenderFillRect(renderer, &rect);
+             
+             if (SDL_GetTicks() - thing->c_d  > thing->r_t) {
+               thing->body->SetActive(true);
+               thing->body->SetLinearVelocity(b2Vec2(0, 20.0));
+               transfer.push_back(thing);
+             }
+             
+           });
+  
+  for_each(transfer.begin(), transfer.end(),
+           [](Thing *thing) {
+             things.push_back(thing);
+             thingsToDrop.remove(thing);
+           });
+  
+  SDL_Texture *image;
+  SDL_Color color = {255, 255, 255};
+
+
+ 
+  if (mouse_down == true) {
+    SDL_SetRenderDrawColor(renderer, 123, 12, 61, 255);
+    SDL_RenderDrawLine(renderer, mouse_x1, mouse_y1, mouse_x2, mouse_y2);
+  }
+  
+  image = RenderText("jump on the blocks and match them", "SourceSansPro-Regular.ttf", color, 16);
+  ApplySurface(0, 0, image, renderer);
+  SDL_RenderPresent(renderer);
+ 
+  drop_machine();
+  matching_shit();
+  
+  if (dead == true) {
+    //fucking_dead();
+  }
+  
+  if (mouse_down == true) {
+    SDL_RenderDrawLine(renderer, mouse_x1, mouse_y1, mouse_x2, mouse_y2);
+  }
+  return;
+}
+
+void draw_retry_shit() 
+{
+  
+  return;
+}
+
+void draw_shit()
+{
+  SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+  if (game_mode == 1) {
+    draw_game_shit();
+  } else {
+    draw_retry_shit();
+  }
+}
+
+void just_fucking_jump() {
+  if (player->j == false)  {
+    player->body->ApplyLinearImpulse(b2Vec2(0,-300), player->body->GetPosition());
+    player->j = true;
+    return;
+  }
+  if (player->t != T_NONE) {
+    if (player->t == T_RIGHT) {
+        b2Vec2 force = b2Vec2(-dir_speed, -30);
+        player->t = T_NONE;
+        player->body->SetLinearVelocity(force); 
+    } else if (player->t == T_LEFT) {
+      b2Vec2 force = b2Vec2(dir_speed, -30);
+      player->t = T_NONE;
+      player->body->SetLinearVelocity(force);
+    }
+    player->t = T_NONE;
+  }
+}
+
+
+void keyboard_shit(int keyCode)
+{
+  switch (keyCode) {
+  case SDLK_SPACE:
+    break;
+  case SDLK_LEFT: {
+    player->d = DIR_LEFT;
+    break;
+  }
+  case SDLK_UP:
+    if (j_is_up == true) {
+      just_fucking_jump();
+      j_is_up = false;
+    }
+    break;
+  case SDLK_DOWN:
+    break;
+  case SDLK_RIGHT:  {
+    player->d = DIR_RIGHT;
+    break;
+  }
+  default:
+    break;
+  }
+  return;
+}
+
+void run_shit() 
+{
+  printf("RUN");
+  SDL_Event e;
+  bool quit = false;
+  while (!quit) {
+    while (SDL_PollEvent(&e)){
+      if (e.type == SDL_QUIT) {
+        quit = true;
+        printf("\nQUIT\n");
+      }
+      if (e.type == SDL_KEYDOWN) {
+        keyboard_shit(e.key.keysym.sym);
+      }
+      if (e.type == SDL_KEYUP) {
+        int keycode = e.key.keysym.sym;
+        if (keycode == SDLK_UP) {
+          j_is_up = true;
+        }
+        if (keycode == SDLK_RIGHT) {
+          if (player->d == DIR_RIGHT) {
+            player->d = DIR_NONE;
+            player->body->SetLinearVelocity(b2Vec2(0.0f,   player->body->GetLinearVelocity().y ));
+          }}
+        
+        if (keycode == SDLK_LEFT) {
+          if (player->d == DIR_LEFT) {
+            player->d = DIR_NONE;
+            player->body->SetLinearVelocity(b2Vec2(0.0f,   player->body->GetLinearVelocity().y ));
+          }
+        } 
+      }
+      
+      if (e.type == SDL_MOUSEBUTTONUP) {
+        SDL_MouseButtonEvent evt = e.button;
+        if (evt.button == SDL_BUTTON_LEFT) {
+          mouse_down = false;
+          printf("Mouse up\n");
+        }
+      }
+      if (e.type == SDL_MOUSEBUTTONDOWN) {
+        SDL_MouseButtonEvent evt = e.button;
+        if (evt.button == SDL_BUTTON_LEFT) {
+          mouse_down = true;
+          mouse_x1 = evt.x;
+          mouse_y1 = evt.y;
+         
+          mouse_x2 = evt.x;
+          mouse_y2 = evt.y;
+          printf("Mouse down\n");
+        }
+      }
+      
+      if (e.type == SDL_MOUSEMOTION) {
+        SDL_MouseMotionEvent evt = e.motion;
+        printf("Moved %i %i\n", evt.x, evt.y);
+        mouse_x2 = evt.x;
+        mouse_y2 = evt.y;
+      }
+    }
+    draw_shit();
+  }
+  return;
+}
+
+
+void noise_test(void)
+{
+  unsigned int width  = 2;
+  unsigned int height = 2;
+  float bias =  219.0f;
+  float *result = (float *) malloc( (width * height) * sizeof(float) );
+  for (int x = 0; x < width; x++)
+    for (int y = 0; y < height; y++) {
+      float res = raw_noise_2d(x + bias , y + bias);
+      printf("%f (%f %f)\n", res, x + bias, y + bias);
+    }
+  free (result);   
+  return;
+}
+
+int main(int argc, char** argv) {
+  
+  UNIT_WIDTH  = SCREEN_WIDTH/BOX_WIDTH;
+  UNIT_HEIGHT = SCREEN_HEIGHT/BOX_HEIGHT;
+
+  _camera = new Camera();
+  _window = new Window();
+  _audio  = new Audio();
+  _window->Init();
+  TTF_Init();
+
+  
+  renderer = _window->renderer;
+  load_shit();
+  run_shit();
+  return 0;
+}
+

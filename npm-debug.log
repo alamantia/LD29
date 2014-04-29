@@ -1,0 +1,199 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   '-g',
+1 verbose cli   'typescript' ]
+2 info using npm@1.3.5
+3 info using node@v0.10.15
+4 verbose cache add [ 'typescript', null ]
+5 verbose cache add name=undefined spec="typescript" args=["typescript",null]
+6 verbose parsed url { protocol: null,
+6 verbose parsed url   slashes: null,
+6 verbose parsed url   auth: null,
+6 verbose parsed url   host: null,
+6 verbose parsed url   port: null,
+6 verbose parsed url   hostname: null,
+6 verbose parsed url   hash: null,
+6 verbose parsed url   search: null,
+6 verbose parsed url   query: null,
+6 verbose parsed url   pathname: 'typescript',
+6 verbose parsed url   path: 'typescript',
+6 verbose parsed url   href: 'typescript' }
+7 silly lockFile fb9da861-typescript typescript
+8 verbose lock typescript /home/anthonyl/.npm/fb9da861-typescript.lock
+9 silly lockFile fb9da861-typescript typescript
+10 silly lockFile fb9da861-typescript typescript
+11 verbose addNamed [ 'typescript', '' ]
+12 verbose addNamed [ null, '*' ]
+13 silly lockFile b598c0ef-typescript typescript@
+14 verbose lock typescript@ /home/anthonyl/.npm/b598c0ef-typescript.lock
+15 silly addNameRange { name: 'typescript', range: '*', hasData: false }
+16 verbose url raw typescript
+17 verbose url resolving [ 'https://registry.npmjs.org/', './typescript' ]
+18 verbose url resolved https://registry.npmjs.org/typescript
+19 info trying registry request attempt 1 at 19:54:58
+20 verbose etag "EGGMQ03CZSM7FYS2GV2MMEWJK"
+21 http GET https://registry.npmjs.org/typescript
+22 http 304 https://registry.npmjs.org/typescript
+23 silly registry.get cb [ 304,
+23 silly registry.get   { server: 'CouchDB/1.3.1 (Erlang OTP/R15B03)',
+23 silly registry.get     etag: '"EGGMQ03CZSM7FYS2GV2MMEWJK"',
+23 silly registry.get     date: 'Wed, 06 Nov 2013 01:54:59 GMT',
+23 silly registry.get     'content-length': '0' } ]
+24 verbose etag typescript from cache
+25 silly addNameRange number 2 { name: 'typescript', range: '*', hasData: true }
+26 silly addNameRange versions [ 'typescript',
+26 silly addNameRange   [ '0.8.0',
+26 silly addNameRange     '0.8.1',
+26 silly addNameRange     '0.8.1-1',
+26 silly addNameRange     '0.8.2',
+26 silly addNameRange     '0.8.3',
+26 silly addNameRange     '0.9.0',
+26 silly addNameRange     '0.9.0-1',
+26 silly addNameRange     '0.9.1',
+26 silly addNameRange     '0.9.1-1' ] ]
+27 verbose addNamed [ 'typescript', '0.9.1-1' ]
+28 verbose addNamed [ '0.9.1-1', '0.9.1-1' ]
+29 silly lockFile f9822836-typescript-0-9-1-1 typescript@0.9.1-1
+30 verbose lock typescript@0.9.1-1 /home/anthonyl/.npm/f9822836-typescript-0-9-1-1.lock
+31 silly lockFile 37c089c0-ypescript-typescript-0-9-1-1-tgz https://registry.npmjs.org/typescript/-/typescript-0.9.1-1.tgz
+32 verbose lock https://registry.npmjs.org/typescript/-/typescript-0.9.1-1.tgz /home/anthonyl/.npm/37c089c0-ypescript-typescript-0-9-1-1-tgz.lock
+33 verbose addRemoteTarball [ 'https://registry.npmjs.org/typescript/-/typescript-0.9.1-1.tgz',
+33 verbose addRemoteTarball   'ee56e64777f6d2c25e369b37f3842991f8f74746' ]
+34 info retry fetch attempt 1 at 19:54:58
+35 verbose fetch to= /home/anthonyl/tmp/npm-4168-Qeya1ktx/1383702898961-0.4633496296592057/tmp.tgz
+36 http GET https://registry.npmjs.org/typescript/-/typescript-0.9.1-1.tgz
+37 http 200 https://registry.npmjs.org/typescript/-/typescript-0.9.1-1.tgz
+38 verbose tar unpack /home/anthonyl/tmp/npm-4168-Qeya1ktx/1383702898961-0.4633496296592057/tmp.tgz
+39 silly lockFile 59390f66-98961-0-4633496296592057-package tar:///home/anthonyl/tmp/npm-4168-Qeya1ktx/1383702898961-0.4633496296592057/package
+40 verbose lock tar:///home/anthonyl/tmp/npm-4168-Qeya1ktx/1383702898961-0.4633496296592057/package /home/anthonyl/.npm/59390f66-98961-0-4633496296592057-package.lock
+41 silly lockFile 4dc330f7-98961-0-4633496296592057-tmp-tgz tar:///home/anthonyl/tmp/npm-4168-Qeya1ktx/1383702898961-0.4633496296592057/tmp.tgz
+42 verbose lock tar:///home/anthonyl/tmp/npm-4168-Qeya1ktx/1383702898961-0.4633496296592057/tmp.tgz /home/anthonyl/.npm/4dc330f7-98961-0-4633496296592057-tmp-tgz.lock
+43 silly gunzTarPerm modes [ '755', '644' ]
+44 silly gunzTarPerm extractEntry package.json
+45 silly gunzTarPerm modified mode [ 'package.json', 438, 420 ]
+46 silly gunzTarPerm extractEntry .npmignore
+47 silly gunzTarPerm modified mode [ '.npmignore', 438, 420 ]
+48 silly gunzTarPerm extractEntry bin/tsc.js
+49 silly gunzTarPerm modified mode [ 'bin/tsc.js', 438, 420 ]
+50 silly gunzTarPerm extractEntry bin/typescript.js
+51 silly gunzTarPerm modified mode [ 'bin/typescript.js', 438, 420 ]
+52 silly gunzTarPerm extractEntry bin/lib.d.ts
+53 silly gunzTarPerm modified mode [ 'bin/lib.d.ts', 438, 420 ]
+54 silly gunzTarPerm extractEntry bin/tsc
+55 silly gunzTarPerm modified mode [ 'bin/tsc', 438, 420 ]
+56 silly gunzTarPerm extractEntry CopyrightNotice.txt
+57 silly gunzTarPerm modified mode [ 'CopyrightNotice.txt', 438, 420 ]
+58 silly gunzTarPerm extractEntry LICENSE.txt
+59 silly gunzTarPerm modified mode [ 'LICENSE.txt', 438, 420 ]
+60 silly gunzTarPerm extractEntry README.txt
+61 silly gunzTarPerm modified mode [ 'README.txt', 438, 420 ]
+62 silly gunzTarPerm extractEntry ThirdPartyNoticeText.txt
+63 silly gunzTarPerm modified mode [ 'ThirdPartyNoticeText.txt', 438, 420 ]
+64 silly lockFile 59390f66-98961-0-4633496296592057-package tar:///home/anthonyl/tmp/npm-4168-Qeya1ktx/1383702898961-0.4633496296592057/package
+65 silly lockFile 59390f66-98961-0-4633496296592057-package tar:///home/anthonyl/tmp/npm-4168-Qeya1ktx/1383702898961-0.4633496296592057/package
+66 silly lockFile 4dc330f7-98961-0-4633496296592057-tmp-tgz tar:///home/anthonyl/tmp/npm-4168-Qeya1ktx/1383702898961-0.4633496296592057/tmp.tgz
+67 silly lockFile 4dc330f7-98961-0-4633496296592057-tmp-tgz tar:///home/anthonyl/tmp/npm-4168-Qeya1ktx/1383702898961-0.4633496296592057/tmp.tgz
+68 verbose tar pack [ '/home/anthonyl/.npm/typescript/0.9.1-1/package.tgz',
+68 verbose tar pack   '/home/anthonyl/tmp/npm-4168-Qeya1ktx/1383702898961-0.4633496296592057/package' ]
+69 verbose tarball /home/anthonyl/.npm/typescript/0.9.1-1/package.tgz
+70 verbose folder /home/anthonyl/tmp/npm-4168-Qeya1ktx/1383702898961-0.4633496296592057/package
+71 silly lockFile 59390f66-98961-0-4633496296592057-package tar:///home/anthonyl/tmp/npm-4168-Qeya1ktx/1383702898961-0.4633496296592057/package
+72 verbose lock tar:///home/anthonyl/tmp/npm-4168-Qeya1ktx/1383702898961-0.4633496296592057/package /home/anthonyl/.npm/59390f66-98961-0-4633496296592057-package.lock
+73 silly lockFile b0a5dc46-m-typescript-0-9-1-1-package-tgz tar:///home/anthonyl/.npm/typescript/0.9.1-1/package.tgz
+74 verbose lock tar:///home/anthonyl/.npm/typescript/0.9.1-1/package.tgz /home/anthonyl/.npm/b0a5dc46-m-typescript-0-9-1-1-package-tgz.lock
+75 silly lockFile 59390f66-98961-0-4633496296592057-package tar:///home/anthonyl/tmp/npm-4168-Qeya1ktx/1383702898961-0.4633496296592057/package
+76 silly lockFile 59390f66-98961-0-4633496296592057-package tar:///home/anthonyl/tmp/npm-4168-Qeya1ktx/1383702898961-0.4633496296592057/package
+77 silly lockFile b0a5dc46-m-typescript-0-9-1-1-package-tgz tar:///home/anthonyl/.npm/typescript/0.9.1-1/package.tgz
+78 silly lockFile b0a5dc46-m-typescript-0-9-1-1-package-tgz tar:///home/anthonyl/.npm/typescript/0.9.1-1/package.tgz
+79 silly lockFile f43a171f-l-npm-typescript-0-9-1-1-package /home/anthonyl/.npm/typescript/0.9.1-1/package
+80 verbose lock /home/anthonyl/.npm/typescript/0.9.1-1/package /home/anthonyl/.npm/f43a171f-l-npm-typescript-0-9-1-1-package.lock
+81 silly lockFile f43a171f-l-npm-typescript-0-9-1-1-package /home/anthonyl/.npm/typescript/0.9.1-1/package
+82 silly lockFile f43a171f-l-npm-typescript-0-9-1-1-package /home/anthonyl/.npm/typescript/0.9.1-1/package
+83 verbose tar unpack /home/anthonyl/.npm/typescript/0.9.1-1/package.tgz
+84 silly lockFile 9d284e13-l-npm-typescript-0-9-1-1-package tar:///home/anthonyl/.npm/typescript/0.9.1-1/package
+85 verbose lock tar:///home/anthonyl/.npm/typescript/0.9.1-1/package /home/anthonyl/.npm/9d284e13-l-npm-typescript-0-9-1-1-package.lock
+86 silly lockFile b0a5dc46-m-typescript-0-9-1-1-package-tgz tar:///home/anthonyl/.npm/typescript/0.9.1-1/package.tgz
+87 verbose lock tar:///home/anthonyl/.npm/typescript/0.9.1-1/package.tgz /home/anthonyl/.npm/b0a5dc46-m-typescript-0-9-1-1-package-tgz.lock
+88 silly gunzTarPerm modes [ '755', '644' ]
+89 silly gunzTarPerm extractEntry package.json
+90 silly gunzTarPerm extractEntry .npmignore
+91 silly gunzTarPerm extractEntry CopyrightNotice.txt
+92 silly gunzTarPerm extractEntry LICENSE.txt
+93 silly gunzTarPerm extractEntry README.txt
+94 silly gunzTarPerm extractEntry ThirdPartyNoticeText.txt
+95 silly gunzTarPerm extractEntry bin/tsc.js
+96 silly gunzTarPerm extractEntry bin/typescript.js
+97 silly gunzTarPerm extractEntry bin/lib.d.ts
+98 silly gunzTarPerm extractEntry bin/tsc
+99 silly lockFile 9d284e13-l-npm-typescript-0-9-1-1-package tar:///home/anthonyl/.npm/typescript/0.9.1-1/package
+100 silly lockFile 9d284e13-l-npm-typescript-0-9-1-1-package tar:///home/anthonyl/.npm/typescript/0.9.1-1/package
+101 silly lockFile b0a5dc46-m-typescript-0-9-1-1-package-tgz tar:///home/anthonyl/.npm/typescript/0.9.1-1/package.tgz
+102 silly lockFile b0a5dc46-m-typescript-0-9-1-1-package-tgz tar:///home/anthonyl/.npm/typescript/0.9.1-1/package.tgz
+103 verbose chmod /home/anthonyl/.npm/typescript/0.9.1-1/package.tgz 644
+104 verbose chown /home/anthonyl/.npm/typescript/0.9.1-1/package.tgz [ 1000, 1000 ]
+105 silly lockFile 37c089c0-ypescript-typescript-0-9-1-1-tgz https://registry.npmjs.org/typescript/-/typescript-0.9.1-1.tgz
+106 silly lockFile 37c089c0-ypescript-typescript-0-9-1-1-tgz https://registry.npmjs.org/typescript/-/typescript-0.9.1-1.tgz
+107 silly lockFile f9822836-typescript-0-9-1-1 typescript@0.9.1-1
+108 silly lockFile f9822836-typescript-0-9-1-1 typescript@0.9.1-1
+109 silly lockFile b598c0ef-typescript typescript@
+110 silly lockFile b598c0ef-typescript typescript@
+111 silly resolved [ { name: 'typescript',
+111 silly resolved     author: { name: 'Microsoft Corp.' },
+111 silly resolved     homepage: 'http://typescriptlang.org/',
+111 silly resolved     version: '0.9.1-1',
+111 silly resolved     licenses: [ [Object] ],
+111 silly resolved     description: 'TypeScript is a language for application scale JavaScript development',
+111 silly resolved     keywords: [ 'TypeScript', 'Microsoft', 'compiler', 'language', 'javascript' ],
+111 silly resolved     bugs: { url: 'http://typescript.codeplex.com/workitem/list/basic' },
+111 silly resolved     repository: { type: 'git', url: 'https://git01.codeplex.com/typescript' },
+111 silly resolved     preferGlobal: true,
+111 silly resolved     main: './bin/typescript.js',
+111 silly resolved     bin: { tsc: './bin/tsc' },
+111 silly resolved     engines: { node: '>=0.8.0' },
+111 silly resolved     devDependencies: { jake: 'latest' },
+111 silly resolved     readme: '# TypeScript\r\n\r\nScalable JavaScript development with types, classes and modules.\r\n\r\n## Install\r\n\r\n  npm install -g typescript\r\n\r\n## Usage\r\n\r\n  tsc hello.ts\r\n  \r\n\r\n## Build\r\n\r\n1.  Install Node if you haven\'t already (http://nodejs.org/)\r\n2.  Install Jake, the tool we use to build our compiler (https://github.com/mde/jake). To do this, run "npm install -g jake".\r\n3.  To use jake, run one of the following commands: \r\n    - jake local - This builds the compiler. The output is in built/local in the public directory \r\n    - jake clean - deletes the build compiler \r\n    - jake LKG - This replaces the LKG (last known good) version of the compiler with the built one.\r\n        - This is a bootstrapping step to be executed whenever the built compiler reaches a stable state.\r\n    - jake tests - This builds the test infrastructure, using the built compiler. \r\n    - jake runtests - This runs the tests, using the built compiler and built test infrastructure. \r\n        - You can also override the host or specify a test for this command. Use host=<hostName> or tests=<testPath>. \r\n    - jake baseline-accept - This replaces the baseline test results with the results obtained from jake runtests. \r\n    - jake -T lists the above commands. \r\n',
+111 silly resolved     readmeFilename: 'README.txt',
+111 silly resolved     _id: 'typescript@0.9.1-1',
+111 silly resolved     dist: { shasum: 'dc55c41d1d20e970e4755b28bdd817fa6c13c99f' },
+111 silly resolved     _from: 'typescript@',
+111 silly resolved     _resolved: 'https://registry.npmjs.org/typescript/-/typescript-0.9.1-1.tgz' } ]
+112 info install typescript@0.9.1-1 into /usr/local/lib
+113 info installOne typescript@0.9.1-1
+114 info /usr/local/lib/node_modules/typescript unbuild
+115 verbose tar unpack /home/anthonyl/.npm/typescript/0.9.1-1/package.tgz
+116 silly lockFile 2d878377-ocal-lib-node-modules-typescript tar:///usr/local/lib/node_modules/typescript
+117 verbose lock tar:///usr/local/lib/node_modules/typescript /home/anthonyl/.npm/2d878377-ocal-lib-node-modules-typescript.lock
+118 silly lockFile b0a5dc46-m-typescript-0-9-1-1-package-tgz tar:///home/anthonyl/.npm/typescript/0.9.1-1/package.tgz
+119 verbose lock tar:///home/anthonyl/.npm/typescript/0.9.1-1/package.tgz /home/anthonyl/.npm/b0a5dc46-m-typescript-0-9-1-1-package-tgz.lock
+120 silly gunzTarPerm modes [ '755', '644' ]
+121 error Error: EACCES, mkdir '/usr/local/lib/node_modules/typescript'
+121 error  { [Error: EACCES, mkdir '/usr/local/lib/node_modules/typescript']
+121 error   errno: 3,
+121 error   code: 'EACCES',
+121 error   path: '/usr/local/lib/node_modules/typescript',
+121 error   fstream_type: 'Directory',
+121 error   fstream_path: '/usr/local/lib/node_modules/typescript',
+121 error   fstream_class: 'DirWriter',
+121 error   fstream_stack:
+121 error    [ '/usr/local/lib/node_modules/npm/node_modules/fstream/lib/dir-writer.js:36:23',
+121 error      '/usr/local/lib/node_modules/npm/node_modules/mkdirp/index.js:37:53',
+121 error      'Object.oncomplete (fs.js:107:15)' ] }
+122 error Please try running this command again as root/Administrator.
+123 error System Linux 3.8.0-32-generic
+124 error command "/usr/local/bin/node" "/usr/local/bin/npm" "install" "-g" "typescript"
+125 error cwd /home/anthonyl/code/matching-game/MatchingGame
+126 error node -v v0.10.15
+127 error npm -v 1.3.5
+128 error path /usr/local/lib/node_modules/typescript
+129 error fstream_path /usr/local/lib/node_modules/typescript
+130 error fstream_type Directory
+131 error fstream_class DirWriter
+132 error code EACCES
+133 error errno 3
+134 error stack Error: EACCES, mkdir '/usr/local/lib/node_modules/typescript'
+135 error fstream_stack /usr/local/lib/node_modules/npm/node_modules/fstream/lib/dir-writer.js:36:23
+135 error fstream_stack /usr/local/lib/node_modules/npm/node_modules/mkdirp/index.js:37:53
+135 error fstream_stack Object.oncomplete (fs.js:107:15)
+136 verbose exit [ 3, true ]

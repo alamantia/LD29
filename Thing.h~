@@ -1,0 +1,46 @@
+#ifndef THING_H
+#define THING_H
+
+#include <Box2D/Box2D.h>
+
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_image.h"
+#include "SDL2/SDL_ttf.h"
+#include "SDL2/SDL_mixer.h"
+
+class Thing {
+public: 
+  bool j;
+  int  t;
+  int d;
+  int x;
+  int y;
+  
+  int w;
+  int h;
+
+  int c;
+
+  int t_r;
+  int t_l;
+  int t_u;
+  int t_d;
+  
+  int c_d;
+  int r_t;
+
+  int d_x;
+  int d_y;
+
+  int    landed;
+  int    type;
+  b2Body *body;
+  
+  Thing()   {};
+  ~Thing()  {};
+ 
+  void draw();
+  bool contains_point(float x, float y);
+};
+
+#endif

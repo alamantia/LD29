@@ -1,0 +1,9 @@
+#include <math>
+
+using namespace std;
+
+class AVector2D {
+  float x;
+  float y;
+
+}

@@ -1,0 +1,141 @@
+﻿Build started 9/28/2013 3:30:41 PM.
+     1>Project "c:\Users\anthonyl\documents\visual studio 2012\Projects\MatchingGame\MatchingGame\MatchingGame.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\..\..\..\..\..\libs\Box2D\Box2D\Collision\b2BroadPhase.cpp ..\..\..\..\..\..\..\libs\Box2D\Box2D\Collision\b2CollideCircle.cpp ..\..\..\..\..\..\..\libs\Box2D\Box2D\Collision\b2CollidePolygon.cpp ..\..\..\..\..\..\..\libs\Box2D\Box2D\Collision\b2Collision.cpp ..\..\..\..\..\..\..\libs\Box2D\Box2D\Collision\b2Distance.cpp ..\..\..\..\..\..\..\libs\Box2D\Box2D\Collision\b2DynamicTree.cpp ..\..\..\..\..\..\..\libs\Box2D\Box2D\Collision\b2TimeOfImpact.cpp ..\..\..\..\..\..\..\libs\Box2D\Box2D\Collision\Shapes\b2CircleShape.cpp ..\..\..\..\..\..\..\libs\Box2D\Box2D\Collision\Shapes\b2PolygonShape.cpp ..\..\..\..\..\..\..\libs\Box2D\Box2D\Common\b2BlockAllocator.cpp ..\..\..\..\..\..\..\libs\Box2D\Box2D\Common\b2Math.cpp ..\..\..\..\..\..\..\libs\Box2D\Box2D\Common\b2Settings.cpp ..\..\..\..\..\..\..\libs\Box2D\Box2D\Common\b2StackAllocator.cpp ..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\b2Body.cpp ..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\b2ContactManager.cpp ..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\b2Fixture.cpp ..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\b2Island.cpp ..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\b2World.cpp ..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\b2WorldCallbacks.cpp ..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\Contacts\b2CircleContact.cpp ..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\Contacts\b2Contact.cpp ..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\Contacts\b2ContactSolver.cpp ..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\Contacts\b2PolygonAndCircleContact.cpp ..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\Contacts\b2PolygonContact.cpp ..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\Contacts\b2TOISolver.cpp ..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\Joints\b2DistanceJoint.cpp ..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\Joints\b2FrictionJoint.cpp ..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\Joints\b2GearJoint.cpp ..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\Joints\b2Joint.cpp ..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\Joints\b2LineJoint.cpp ..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\Joints\b2MouseJoint.cpp ..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\Joints\b2PrismaticJoint.cpp ..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\Joints\b2PulleyJoint.cpp ..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\Joints\b2RevoluteJoint.cpp ..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\Joints\b2WeldJoint.cpp Audio.cpp Camera.cpp Drop.cpp Globals.cpp main.cpp Map.cpp Object.cpp Position.cpp simplexnoise.cpp Thing.cpp Timer.cpp Window.cpp
+         b2BroadPhase.cpp
+     1>..\..\..\..\..\..\..\libs\Box2D\Box2D\Collision\b2BroadPhase.cpp(19): fatal error C1083: Cannot open include file: 'Box2D/Collision/b2BroadPhase.h': No such file or directory
+         b2CollideCircle.cpp
+     1>..\..\..\..\..\..\..\libs\Box2D\Box2D\Collision\b2CollideCircle.cpp(19): fatal error C1083: Cannot open include file: 'Box2D/Collision/b2Collision.h': No such file or directory
+         b2CollidePolygon.cpp
+     1>..\..\..\..\..\..\..\libs\Box2D\Box2D\Collision\b2CollidePolygon.cpp(19): fatal error C1083: Cannot open include file: 'Box2D/Collision/b2Collision.h': No such file or directory
+         b2Collision.cpp
+     1>..\..\..\..\..\..\..\libs\Box2D\Box2D\Collision\b2Collision.cpp(19): fatal error C1083: Cannot open include file: 'Box2D/Collision/b2Collision.h': No such file or directory
+         b2Distance.cpp
+     1>..\..\..\..\..\..\..\libs\Box2D\Box2D\Collision\b2Distance.cpp(19): fatal error C1083: Cannot open include file: 'Box2D/Collision/b2Distance.h': No such file or directory
+         b2DynamicTree.cpp
+     1>..\..\..\..\..\..\..\libs\Box2D\Box2D\Collision\b2DynamicTree.cpp(19): fatal error C1083: Cannot open include file: 'Box2D/Collision/b2DynamicTree.h': No such file or directory
+         b2TimeOfImpact.cpp
+     1>..\..\..\..\..\..\..\libs\Box2D\Box2D\Collision\b2TimeOfImpact.cpp(19): fatal error C1083: Cannot open include file: 'Box2D/Collision/b2Collision.h': No such file or directory
+         b2CircleShape.cpp
+     1>..\..\..\..\..\..\..\libs\Box2D\Box2D\Collision\Shapes\b2CircleShape.cpp(19): fatal error C1083: Cannot open include file: 'Box2D/Collision/Shapes/b2CircleShape.h': No such file or directory
+         b2PolygonShape.cpp
+     1>..\..\..\..\..\..\..\libs\Box2D\Box2D\Collision\Shapes\b2PolygonShape.cpp(19): fatal error C1083: Cannot open include file: 'Box2D/Collision/Shapes/b2PolygonShape.h': No such file or directory
+         b2BlockAllocator.cpp
+     1>..\..\..\..\..\..\..\libs\Box2D\Box2D\Common\b2BlockAllocator.cpp(19): fatal error C1083: Cannot open include file: 'Box2D/Common/b2BlockAllocator.h': No such file or directory
+         b2Math.cpp
+     1>..\..\..\..\..\..\..\libs\Box2D\Box2D\Common\b2Math.cpp(19): fatal error C1083: Cannot open include file: 'Box2D/Common/b2Math.h': No such file or directory
+         b2Settings.cpp
+     1>..\..\..\..\..\..\..\libs\Box2D\Box2D\Common\b2Settings.cpp(19): fatal error C1083: Cannot open include file: 'Box2D/Common/b2Settings.h': No such file or directory
+         b2StackAllocator.cpp
+     1>..\..\..\..\..\..\..\libs\Box2D\Box2D\Common\b2StackAllocator.cpp(19): fatal error C1083: Cannot open include file: 'Box2D/Common/b2StackAllocator.h': No such file or directory
+         b2Body.cpp
+     1>..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\b2Body.cpp(19): fatal error C1083: Cannot open include file: 'Box2D/Dynamics/b2Body.h': No such file or directory
+         b2ContactManager.cpp
+     1>..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\b2ContactManager.cpp(19): fatal error C1083: Cannot open include file: 'Box2D/Dynamics/b2ContactManager.h': No such file or directory
+         b2Fixture.cpp
+     1>..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\b2Fixture.cpp(19): fatal error C1083: Cannot open include file: 'Box2D/Dynamics/b2Fixture.h': No such file or directory
+         b2Island.cpp
+     1>..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\b2Island.cpp(19): fatal error C1083: Cannot open include file: 'Box2D/Dynamics/b2Island.h': No such file or directory
+         b2World.cpp
+     1>..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\b2World.cpp(19): fatal error C1083: Cannot open include file: 'Box2D/Dynamics/b2World.h': No such file or directory
+         b2WorldCallbacks.cpp
+     1>..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\b2WorldCallbacks.cpp(19): fatal error C1083: Cannot open include file: 'Box2D/Dynamics/b2WorldCallbacks.h': No such file or directory
+         b2CircleContact.cpp
+     1>..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\Contacts\b2CircleContact.cpp(19): fatal error C1083: Cannot open include file: 'Box2D/Dynamics/Contacts/b2CircleContact.h': No such file or directory
+         Compiling...
+         b2Contact.cpp
+     1>..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\Contacts\b2Contact.cpp(19): fatal error C1083: Cannot open include file: 'Box2D/Dynamics/Contacts/b2Contact.h': No such file or directory
+         b2ContactSolver.cpp
+     1>..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\Contacts\b2ContactSolver.cpp(19): fatal error C1083: Cannot open include file: 'Box2D/Dynamics/Contacts/b2ContactSolver.h': No such file or directory
+         b2PolygonAndCircleContact.cpp
+     1>..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\Contacts\b2PolygonAndCircleContact.cpp(19): fatal error C1083: Cannot open include file: 'Box2D/Dynamics/Contacts/b2PolygonAndCircleContact.h': No such file or directory
+         b2PolygonContact.cpp
+     1>..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\Contacts\b2PolygonContact.cpp(19): fatal error C1083: Cannot open include file: 'Box2D/Dynamics/Contacts/b2PolygonContact.h': No such file or directory
+         b2TOISolver.cpp
+     1>..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\Contacts\b2TOISolver.cpp(19): fatal error C1083: Cannot open include file: 'Box2D/Dynamics/Contacts/b2TOISolver.h': No such file or directory
+         b2DistanceJoint.cpp
+     1>..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\Joints\b2DistanceJoint.cpp(19): fatal error C1083: Cannot open include file: 'Box2D/Dynamics/Joints/b2DistanceJoint.h': No such file or directory
+         b2FrictionJoint.cpp
+     1>..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\Joints\b2FrictionJoint.cpp(19): fatal error C1083: Cannot open include file: 'Box2D/Dynamics/Joints/b2FrictionJoint.h': No such file or directory
+         b2GearJoint.cpp
+     1>..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\Joints\b2GearJoint.cpp(19): fatal error C1083: Cannot open include file: 'Box2D/Dynamics/Joints/b2GearJoint.h': No such file or directory
+         b2Joint.cpp
+     1>..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\Joints\b2Joint.cpp(19): fatal error C1083: Cannot open include file: 'Box2D/Dynamics/Joints/b2Joint.h': No such file or directory
+         b2LineJoint.cpp
+     1>..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\Joints\b2LineJoint.cpp(19): fatal error C1083: Cannot open include file: 'Box2D/Dynamics/Joints/b2LineJoint.h': No such file or directory
+         b2MouseJoint.cpp
+     1>..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\Joints\b2MouseJoint.cpp(19): fatal error C1083: Cannot open include file: 'Box2D/Dynamics/Joints/b2MouseJoint.h': No such file or directory
+         b2PrismaticJoint.cpp
+     1>..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\Joints\b2PrismaticJoint.cpp(19): fatal error C1083: Cannot open include file: 'Box2D/Dynamics/Joints/b2PrismaticJoint.h': No such file or directory
+         b2PulleyJoint.cpp
+     1>..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\Joints\b2PulleyJoint.cpp(19): fatal error C1083: Cannot open include file: 'Box2D/Dynamics/Joints/b2PulleyJoint.h': No such file or directory
+         b2RevoluteJoint.cpp
+     1>..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\Joints\b2RevoluteJoint.cpp(19): fatal error C1083: Cannot open include file: 'Box2D/Dynamics/Joints/b2RevoluteJoint.h': No such file or directory
+         b2WeldJoint.cpp
+     1>..\..\..\..\..\..\..\libs\Box2D\Box2D\Dynamics\Joints\b2WeldJoint.cpp(19): fatal error C1083: Cannot open include file: 'Box2D/Dynamics/Joints/b2WeldJoint.h': No such file or directory
+         Audio.cpp
+     1>c:\users\anthonyl\documents\visual studio 2012\projects\matchinggame\matchinggame\Audio.h(10): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+         Camera.cpp
+         Drop.cpp
+     1>c:\users\anthonyl\documents\visual studio 2012\projects\matchinggame\matchinggame\defines.h(4): fatal error C1083: Cannot open include file: 'Box2D/Box2D.h': No such file or directory
+         Globals.cpp
+     1>c:\users\anthonyl\documents\visual studio 2012\projects\matchinggame\matchinggame\defines.h(4): fatal error C1083: Cannot open include file: 'Box2D/Box2D.h': No such file or directory
+         main.cpp
+     1>c:\users\anthonyl\documents\visual studio 2012\projects\matchinggame\matchinggame\defines.h(4): fatal error C1083: Cannot open include file: 'Box2D/Box2D.h': No such file or directory
+         Compiling...
+         Map.cpp
+         Object.cpp
+         Position.cpp
+         simplexnoise.cpp
+     1>simplexnoise.cpp(179): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(185): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(205): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(206): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(216): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(223): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(230): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(239): warning C4244: 'return' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(248): warning C4305: 'initializing' : truncation from 'double' to 'float'
+     1>simplexnoise.cpp(254): warning C4305: 'initializing' : truncation from 'double' to 'float'
+     1>simplexnoise.cpp(286): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(287): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(288): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(289): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(290): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(291): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(303): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(310): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(317): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(324): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(333): warning C4244: 'return' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(340): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(341): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(406): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(407): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(408): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(409): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(410): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(411): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(412): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(413): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(414): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(415): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(416): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(417): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(431): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(438): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(445): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(452): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(459): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>simplexnoise.cpp(467): warning C4244: 'return' : conversion from 'double' to 'float', possible loss of data
+         Thing.cpp
+     1>c:\users\anthonyl\documents\visual studio 2012\projects\matchinggame\matchinggame\defines.h(4): fatal error C1083: Cannot open include file: 'Box2D/Box2D.h': No such file or directory
+         Timer.cpp
+     1>Timer.cpp(9): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+         Window.cpp
+     1>c:\users\anthonyl\documents\visual studio 2012\projects\matchinggame\matchinggame\defines.h(4): fatal error C1083: Cannot open include file: 'Box2D/Box2D.h': No such file or directory
+     1>Done Building Project "c:\Users\anthonyl\documents\visual studio 2012\Projects\MatchingGame\MatchingGame\MatchingGame.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:01.66

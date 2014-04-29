@@ -1,0 +1,210 @@
+#include "defines.h"
+#include "Drop.h"
+
+extern float UNIT_WIDTH;
+extern float UNIT_HEIGHT;
+
+drop_script script_1[] = {
+  {DROP_MODE_NORMAL, BOX_WIDTH, 2000,          0},  
+  {DROP_MODE_DOUBLE, BOX_WIDTH, 2000,          0},
+  {DROP_MODE_NORMAL, BOX_WIDTH, 2000,          0},
+  {DROP_MODE_WAVE_RIGHT, BOX_WIDTH,  1000,     0},
+  {DROP_MODE_DOUBLE, BOX_WIDTH, 500,           0},
+  {DROP_MODE_WAVE_RIGHT,  BOX_WIDTH, 1000,     0},
+  {DROP_MODE_NORMAL, 4, 500,                   0},
+  {DROP_MODE_WAVE_LEFT,   BOX_WIDTH, 1000,  0},
+  {DROP_MODE_NORMAL,      BOX_WIDTH, 1000,  0},
+  {DROP_MODE_NORMAL, 4, 700,                0},
+  {DROP_MODE_WAVE_RIGHT,  BOX_WIDTH, 1000,  0},
+  {DROP_MODE_WAVE_LEFT,   BOX_WIDTH, 500,   0},
+};
+
+drop_script script_2[] = {
+  {DROP_MODE_NORMAL, 2, 1000,          0},  
+  {DROP_MODE_NORMAL, 4, 700,           0},
+  {DROP_MODE_DOUBLE, BOX_WIDTH, 1000,  0},
+  {DROP_MODE_NORMAL, 4, 700,  0},
+  {DROP_MODE_WAVE_RIGHT, BOX_WIDTH, 1000,    0},
+  {DROP_MODE_WAVE_RIGHT,  BOX_WIDTH, 1000,  0},
+  {DROP_MODE_NORMAL, 4, 700,       0},
+  {DROP_MODE_WAVE_LEFT,   BOX_WIDTH, 1000,  0},
+  {DROP_MODE_NORMAL,      BOX_WIDTH, 1000,  0},
+  {DROP_MODE_NORMAL, 4, 700, 0},
+  {DROP_MODE_WAVE_RIGHT,  BOX_WIDTH, 1000,  0},
+  {DROP_MODE_WAVE_LEFT,   BOX_WIDTH, 1000,  0},
+};
+
+int last_drop        = 0;
+int drop_mode        = 0;
+int drop_index       = 0;
+int drop_index_final = 0;
+int drop_colors      = 4; // max number of color bricks
+
+int level_drop_index = 0;
+int level_drops = sizeof(script_1)/sizeof(drop_script);
+
+extern list<Thing *> things;
+extern list<Thing *> thingsToDrop;
+
+void reset_drop() 
+{
+  drop_mode = 0;
+  last_drop = 0;
+  drop_index = 0;
+  drop_index_final = 0;
+  level_drop_index = 0;
+  return;
+}
+
+drop_script random_drop_script() 
+{
+  drop_script ds;
+  return  ds;
+}
+
+drop_script get_drop_script() 
+{
+  drop_script ds;
+  return ds;
+}
+
+void drop_box_double_wave(void)
+{
+  return;
+}
+
+void drop_box_wave(int step, int direction, float speed)
+{
+  float t = speed;
+  if (direction == 0) {
+    for (int l = 0; l < BOX_WIDTH; l++) {
+      if (l == step) {
+        Thing *obj = place_shit_with_physics(LOL_BOX, (l * UNIT_WIDTH)  , 0, drop_colors);
+        place_box_tile(l, 0, drop_colors);
+		if (obj == nullptr)
+			return;
+        obj->r_t = t;
+        return;
+      }
+    }
+  } else {
+    for (int l = 0; l < BOX_WIDTH; l++) {
+      if (BOX_WIDTH - l == step) {
+        Thing *obj = place_shit_with_physics(LOL_BOX, (l * UNIT_WIDTH)  , 0, drop_colors);
+        place_box_tile(l, 0, drop_colors);
+		if (obj == nullptr)
+			return;
+        obj->r_t = t;
+        return;
+      }
+    }
+  }
+  return;
+}
+
+void drop_box()
+{
+  Thing *grid[BOX_WIDTH][BOX_HEIGHT];
+  memset(&grid, 0, sizeof(grid));
+  for (int x = 0; x < BOX_WIDTH; x++)
+    for (int y = 0; y < BOX_HEIGHT; y++) {
+      grid[x][y] =  getBox(x, y);
+    }
+  int heights[BOX_WIDTH];
+  memset(&heights, 0, sizeof(heights));
+  for (int x = 0; x < BOX_WIDTH; x++) {
+    int height = 0;
+    for (int y = 0; y < BOX_HEIGHT; y++) {
+      if (grid[x][y] != NULL) 
+        height++;
+    }
+    heights[x] = height;
+  }
+  int l = -1;
+  std::list<int> possible;
+  for (int x = 0; x < BOX_WIDTH; x++) {
+    printf("%i ", heights[x]);
+   if (l == -1) {
+      l = x;
+      continue;
+    }
+    if (heights[x] <= heights[l]) {
+      l = x;
+      printf("");
+      possible.push_back(x);
+    }
+  }
+  printf("\n");
+  int t = possible.size();
+  int r = 0;
+  if (t != 0) {
+    r= rand() % t;
+  }
+
+  int idx = 0;
+  for (auto it = possible.begin(); it != possible.end(); ++it) {
+    l = *it;
+    if (idx == r)
+      break;
+    idx++;
+  }
+  printf("Lowest %i d %i\n", l, r);
+  place_box_tile(l,0, drop_colors);
+  Thing *obj = place_shit_with_physics(LOL_BOX, (l * UNIT_WIDTH)  , 0, drop_colors);
+  if (obj == nullptr)
+	  return;
+  obj->r_t = 50;
+  printf("\n");
+
+}
+
+void drop_machine()
+{
+  drop_script c = script_1[level_drop_index % level_drops];
+  if (SDL_GetTicks() - last_drop < c.drop_tick) {
+    return;
+  }
+  switch (c.drop_type) {
+  case DROP_MODE_NORMAL: {
+    drop_box();
+    break;
+  }
+  case DROP_MODE_DOUBLE: {
+    drop_box();
+    drop_box();
+    break;
+  }
+  case DROP_MODE_BLINK: {
+    break;
+  }
+  case DROP_MODE_MULTI: {
+    break;
+  }
+  case DROP_MODE_TRI: {
+    break;
+  }
+  case DROP_MODE_SINGLE_FILL: {
+    break;
+  }
+  case DROP_MODE_WAVE_RIGHT: {
+    drop_box_wave(drop_index, 0, c.release_time);
+    break;
+  }
+  case DROP_MODE_WAVE_LEFT: {
+    drop_box_wave(drop_index, 1, c.release_time);
+    break;
+  }
+  default: {
+    drop_box();
+    break;
+  }
+    
+  }
+  drop_index++;
+  if (drop_index >= c.drop_length) {
+    drop_index = 0;
+    level_drop_index++;
+  }
+  last_drop = SDL_GetTicks();
+  return;
+}

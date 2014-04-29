@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="12" height="12" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="tallgrass" tilewidth="16" tileheight="16">
+  <image source="../../../submission_daneeklu/tilesets/tallgrass.png" width="96" height="192"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="12" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjZmBgYB7Fo5hMDADrrwGx
+  </data>
+ </layer>
+ <layer name="Tile Layer 2" width="12" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxzZGBgcGIgHrgDsQcJ6ocCcGQYDQN7IHYgQb0rELsBMQChPQMv
+  </data>
+ </layer>
+</map>

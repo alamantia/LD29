@@ -1,0 +1,189 @@
+/* Why isn't this a class? */
+#ifdef ANDROID
+#include <android/log.h>
+#endif
+
+#include <iostream>
+#include <string>
+#include <list>
+#include <map>
+#include <algorithm>
+#include <functional>
+#include "Thing.h"
+#include "Button.h"
+#include "simplexnoise.h"
+#include "defines.h"
+#include "Drop.h"
+#include "Context.h"
+#include "Camera.h"
+#include "Clouds.h"
+#include "P1.h"
+
+extern  int   game_mode;
+extern  float box_height;
+extern  float box_width;
+extern  float UNIT_HEIGHT;
+extern  float UNIT_WIDTH;
+
+// used for detecting the possible toggle states
+
+extern int SCREEN_WIDTH;
+extern int SCREEN_HEIGHT;
+
+extern int WINDOW_WIDTH;
+extern int WINDOW_HEIGHT;
+
+Clock *_clock;
+extern Window *_window;
+extern Audio  *_audio;
+extern Camera *_camera;
+extern Texture *_texture;
+extern SDL_Renderer *renderer;
+
+int tile_width  = 12;
+int tile_height = 12;
+
+bool paused = false;
+typedef  Thing * tile;
+
+struct position_rect {
+  int x;
+  int y;
+};
+
+tile **tiles;
+list<tile> gameObjects;
+list<P1 *> P1s;
+Thing *Player;
+
+void draw_background()
+{
+  SDL_Rect pos;
+
+  pos.x = 0;
+  pos.y = 0;
+  pos.w = SCREEN_WIDTH;
+  pos.h = SCREEN_HEIGHT;
+   SDL_RenderFillRect(_window->renderer, &pos);
+  float s_height = WINDOW_WIDTH / 6;
+  float r = 0;
+  float g = 0;
+  float b = 0;
+  SDL_SetRenderDrawColor(_window->renderer, r, g, b, 0);
+  SDL_RenderFillRect(_window->renderer, &pos);
+  return; 
+  for (float s_y = 0; s_y < WINDOW_HEIGHT; s_y += s_height) {
+    pos.x = 0;
+    pos.y = s_y;
+    pos.w = WINDOW_WIDTH;
+    pos.h = s_height;
+    SDL_RenderFillRect(_window->renderer, &pos);
+  }
+  return;
+}
+
+/* use brush-5 has the current sprite */
+void render_aim()
+{
+
+	
+	return;
+}
+
+void render_player()
+{
+  SDL_SetRenderDrawColor(_window->renderer, 255, 255, 255, 255); 
+  SDL_RendererFlip flip = SDL_FLIP_NONE;
+  SDL_Texture *t = _texture->GetTexture("images/brush-1.png");	
+  renderTexture(t, _window->renderer,
+		POS_X(Player->x),
+		POS_Y(Player->y),
+		Player->w, Player->h );
+
+}
+
+void render_game()
+{
+  SDL_RenderClear(_window->renderer);
+  _window->BeginTextureRender();
+  draw_background();
+	for_each(gameObjects.begin(), gameObjects.end(), 
+           [](Thing *thing) {				
+	   });
+	render_player();
+	_window->EndTextureRender();
+  _camera->Tick();
+  _clock->Tick();
+  return;
+}
+
+void handle_event(SDL_Event e)
+{
+  if (e.type == SDL_KEYDOWN) {
+    int keycode = e.key.keysym.sym;
+    switch (keycode) {
+    case SDLK_SPACE: {
+      break;
+    }
+    case SDLK_p: {
+      paused = !paused;
+    }
+    case SDLK_RIGHT: {
+      break;
+    }
+    case SDLK_LEFT: {
+      break;
+    }
+    case SDLK_UP: {
+      break;
+    }
+    default:
+      break;
+    }
+  }
+}
+
+void preload_textures()
+{
+	for (int i = 0; i < 248; i++) {
+		char fname[1024];
+		sprintf(fname, "images/brush-%i.png",i);
+		_texture->GetTexture(fname);	
+	}
+	return;
+}
+
+void player_callback(void *t, int type, string message)
+{
+  printf("Got player callback\n");
+  return;
+}
+
+void b_callback(void *t, int type, string message)
+{
+  printf("Got callback %s\n", message.c_str());
+  return;
+}
+
+
+void setup_game()
+{
+  _clock = new Clock();
+  tile_width  =  12;
+  tile_height =  12;  
+
+  printf("Tiles (%i %i)\n", 
+	 tile_width,
+	 tile_height);
+   
+	preload_textures();  
+  Player = new Thing();
+  Player->type = LOL_PLAYER;
+  Player->x = SCREEN_WIDTH/2;
+  Player->y = SCREEN_HEIGHT/2;
+  Player->w = tile_width;
+  Player->h = tile_height;
+  Player->event_callback = &player_callback;
+	return;
+}
+
