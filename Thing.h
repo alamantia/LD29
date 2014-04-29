@@ -105,7 +105,6 @@ class Thing {
   int    type;
   int     source; 
   bool    dead;
-  b2Body *body;
   
   struct animation *current_animation;
 

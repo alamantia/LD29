@@ -1,9 +1,5 @@
 #ifndef DEFINES_H
 #define DEFINES_H
-
-#include <Box2D/Box2D.h>
-
-
 #ifndef  _WIN32
 
 #ifdef ANDROID
@@ -25,13 +21,14 @@
 #include "SDL_mixer.h"
 #endif
 #include <math.h>
+#include <algorithm>
+#include <functional>
 #include "AVector2D.h"
 #include "Audio.h"
 #include "Window.h"
 #include "Camera.h"
 #include "Thing.h"
 #include "Texture.h"
-#include "BoxGame.h"
 #include "Clock.h"
 
 #define POS_X(x) _camera->PositionX((x))
