@@ -25,7 +25,7 @@
 #include "Game.h"
 
 #define GLIDE_MAX 100
-#define DEG_ROT 2.0
+#define DEG_ROT 8.0
 #define ROT_INC 6.0
 #define ROT_SEGMENTS 12
 #define M_DEGRADE    0.1
@@ -35,6 +35,8 @@ extern  float box_height;
 extern  float box_width;
 extern  float UNIT_HEIGHT;
 extern  float UNIT_WIDTH;
+
+bool game_running = false;
 
 // used for detecting the possible toggle states
 
@@ -56,6 +58,7 @@ int tile_width  = 12;
 int tile_height = 12;
 int glide_end_time  = 0;
 bool shooting = false;
+bool shooting_mouse = false;
 bool moving = false;
 unsigned int moving_speed = 0;
 unsigned int moving_time  = 0;
@@ -74,6 +77,7 @@ list<tile> gameObjects;
 list<P1 *> P1s;
 Thing *Player;
 
+AVector2D  *vectorMouse;
 AVector2D  *vectorAimPosition;
 AVector2D  *vectorAim;
 AVector2D  *vectorCurrent;
@@ -420,6 +424,17 @@ void fire_enemy_bullet(int x, int y, int type, AVector2D *direction)
 void fire_bullet() 
 {
 	static int last_player_bullet = 0;	
+	SDL_PumpEvents();
+	SDL_Cursor* mouse = SDL_GetCursor();
+	int mX;
+	int mY;
+	SDL_GetMouseState(&mX,&mY);
+	
+	if (shooting_mouse) {
+		printf("Mouse fire %i, %i\n", mX, mY);
+	}
+
+
 	if (SDL_GetTicks() - last_player_bullet < 60) 
 		return;
   last_player_bullet = SDL_GetTicks();
@@ -460,12 +475,13 @@ void render_smoke(Thing *t)
 
 void dead() 
 {
+	game_running = false;
   for (auto it = gameObjects.begin(); it != gameObjects.end();) {
         Thing *t = *it;
         it = gameObjects.erase(it);
         delete t;
   }
-  Context::context()->total_health = 5;
+  Context::context()->total_health   = 5;
   Context::context()->current_health = 5;
 
   delete Player;
@@ -559,8 +575,8 @@ void handle_bullets()
 }
 void render_game()
 {
-	//_camera->x = Player->x - SCREEN_WIDTH/2;
-	//_camera->y = Player->y - SCREEN_HEIGHT/2;
+	_camera->x = Player->x - SCREEN_WIDTH/2;
+	_camera->y = Player->y - SCREEN_HEIGHT/2;
 
   SDL_RenderClear(_window->renderer);
   _window->BeginTextureRender();
@@ -625,13 +641,45 @@ void do_inertia()
 
 void handle_event(SDL_Event e)
 {
+	if (!game_running)
+		return;
+	// Touch (most touch processing is in the UI hander side
+
+	// Mouse
+
+   SDL_MouseButtonEvent me = e.button;
+   if (e.type == SDL_MOUSEBUTTONDOWN) {
+    if (me.button == SDL_BUTTON_LEFT) {
+			shooting = true;
+			shooting_mouse= true;
+      printf("Click at %i,%i\n", me.x, me.y);
+      // converts window coords to game texture coords
+			// we need to convert WINDOW position to screen POSITION first! 
+			//float y_real = (float)me.y / (float)(WINDOW_HEIGHT - 40);
+			float y_real = (float)me.y / (float)(WINDOW_HEIGHT + 20);
+      float y_screen = SCREEN_HEIGHT * y_real;
+      float x_real = (float) me.x / (float) WINDOW_WIDTH;
+      float x_screen = SCREEN_WIDTH * x_real;
+			int	  game_x = (int)floor(x_screen + 0.5);
+			int		game_y = (int)floor(y_screen + 0.5);
+    }
+  }
+  if (e.type == SDL_MOUSEBUTTONUP) {
+    if (me.button == SDL_BUTTON_LEFT) {
+			shooting_mouse = false;
+			shooting = false;
+    }
+  }
+
+
+	// Keyboard
 	if (e.type == SDL_KEYUP) {
 		int keycode = e.key.keysym.sym;
 		if (keycode == SDLK_RIGHT || keycode == SDLK_LEFT || keycode == SDLK_a || keycode == SDLK_d) {
 	    //rot_speed = DEG_ROT;
   		vectorAimDelta->x = 0;
 		}
-		if (keycode == SDLK_UP || keycode== SDLK_w) {
+		if (keycode == SDLK_UP || keycode == SDLK_w) {
 			//do_inertia();
       glide_end_time = SDL_GetTicks() + GLIDE_MAX;
 			moving = false;
@@ -659,16 +707,15 @@ void handle_event(SDL_Event e)
     }
     case SDLK_d:
     case SDLK_RIGHT: {
-			printf("-- right\n");
 			vectorAimDelta->x = -(rot_speed); 
       break;
     }
     case SDLK_a:
     case SDLK_LEFT: {
-			printf("-- left\n");
 			vectorAimDelta->x = rot_speed;
       break;
-    }
+    }	
+		case SDLK_w:
     case SDLK_UP: {  
     	moving_time = SDL_GetTicks();
 			moving = true;		
@@ -863,18 +910,17 @@ void setup_game()
   Player->w = tile_width;
   Player->h = tile_height;
   Player->event_callback = &player_callback;
-  
+ 	_camera->x = 0;
+	_camera->y = 0; 
   // generate stuff
   //gen_monsters(); // moved to gen_world
   //gen_items();    // moved to gen_world
 	gen_world();
-
+	_camera->Reset();
+	game_running = true;
 	//add_brick(0,0);
 	return;
 }
-
-
-
 
 void Game::render_game()
 {

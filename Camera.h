@@ -32,7 +32,7 @@ class Camera {
   void Shake(float duration);  
   void ShakeIfNot(float duration);  
   void DoShake();
-  
+ 	void Reset(); 
   Camera();
 
   

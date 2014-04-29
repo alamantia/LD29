@@ -1,3 +1,6 @@
+#ifndef TWEEN_H
+#define TWEEN_H
+
 #include "defines.h"
 
 class Tween {
@@ -7,3 +10,6 @@ class Tween {
     Tween();
     ~Tween();
 };
+
+#endif
+

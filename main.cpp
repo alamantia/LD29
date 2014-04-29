@@ -241,6 +241,7 @@ void draw_shit()
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
   SDL_RenderClear(renderer);
   render_game();
+	Context::context()->Game->render_game();
   Context::context()->userInterface->Draw(renderer);
   _window->RenderGame();
   SDL_RenderPresent(renderer);
@@ -417,7 +418,7 @@ int main(int argc, char** argv) {
   _window->Init();
 
   Context::context();
-
+	Context::context()->Game = new Game();
   _camera = new Camera();
   _audio  = new Audio();
   _texture = new Texture(_window->renderer);

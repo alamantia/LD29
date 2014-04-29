@@ -21,6 +21,11 @@ void Camera::DoShake() {
   y  =  o_y + scaled_raw_noise_2d(-range, range,  rand() % 120, 120);  
 }
 
+void Camera::Reset() {
+	state = CAMERA_NORMAL;
+	x = 0;
+	y = 0;	
+}
 void Camera::ShakeIfNot(float duration) {
   return;
 }

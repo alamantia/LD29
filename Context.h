@@ -3,7 +3,7 @@
 
 #include "defines.h"
 #include "UserInterface.h"
-
+#include "Game.h"
 class Context
 {
 private:
@@ -11,6 +11,7 @@ private:
 public:
 	static Context *context();
 	UserInterface *userInterface;
+	Game	*Game;
   int total_health;
   int current_health;
 	Context(void);

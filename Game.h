@@ -2,7 +2,6 @@
 #define GAME_H
 
 #include "defines.h"
-
 class Game {
 	public:
 
