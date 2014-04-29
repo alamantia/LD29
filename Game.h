@@ -3,6 +3,19 @@
 
 #include "defines.h"
 
+class Game {
+	public:
+
+		virtual void render_game();
+		virtual void setup_game();
+		virtual void handle_event(SDL_Event e);
+
+
+
+		Game();
+		~Game();
+};
+
 // stuff to put into a future game class
 void render_game();
 void setup_game();

@@ -873,3 +873,30 @@ void setup_game()
 	return;
 }
 
+
+
+
+void Game::render_game()
+{
+	return;
+}
+
+void Game::setup_game()
+{
+	return;
+}
+
+void Game::handle_event(SDL_Event e)
+{
+	return;
+}
+
+Game::Game()
+{
+	return;
+}
+
+Game::~Game()
+{
+	return;
+}
