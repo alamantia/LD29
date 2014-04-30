@@ -423,7 +423,11 @@ void fire_enemy_bullet(int x, int y, int type, AVector2D *direction)
 
 void fire_bullet() 
 {
-	static int last_player_bullet = 0;	
+	static int last_player_bullet = 0;
+	if (SDL_GetTicks() - last_player_bullet < 60) 
+		return;
+  last_player_bullet = SDL_GetTicks();
+
 	SDL_PumpEvents();
 	SDL_Cursor* mouse = SDL_GetCursor();
 	int mX;
@@ -431,14 +435,32 @@ void fire_bullet()
 	SDL_GetMouseState(&mX,&mY);
 	
 	if (shooting_mouse) {
-		printf("Mouse fire %i, %i\n", mX, mY);
-		AVector2D *vectorMouseAim = new AVector2D(mX - Player->x, mY - Player->y);
+		AVector2D *mousePosition = convert_window_point(mX, mY, 0,0);
+		AVector2D *vectorMouseAim = new AVector2D(mX - Player->x, (mY - 20) - Player->y);
 		// translate to the position we want and fire as needed
+		printf("Mouse fire %i, %i\n", mX, mY);
+		printf("Mouse fire %f, %f\n", mousePosition->x, mousePosition->y - 20);
+		AVector2D *vectorMouseAimNormal = vectorMouseAim->Normal();
+
+		Thing *t = new Thing();
+		t->type = LOL_BULLET;
+		t->subtype = 0;
+		t->x = Player->x;
+		t->y = Player->y;
+		t->w = 12;
+		t->h = 12;
+  	t->source = SOURCE_PLAYER;
+		t->dir->x = vectorMouseAimNormal->x;
+		t->dir->y = vectorMouseAimNormal->y;
+		gameObjects.push_back(t);
+	
+
+		delete mousePosition;
+		delete vectorMouseAimNormal;
+		delete vectorMouseAim;
+		return;
 	}
 
-	if (SDL_GetTicks() - last_player_bullet < 60) 
-		return;
-  last_player_bullet = SDL_GetTicks();
 	Thing *t = new Thing();
 	t->type = LOL_BULLET;
 	t->subtype = 0;
@@ -619,9 +641,11 @@ void render_game()
 	vectorAim->x += vectorAimDelta->x;
 	_window->EndTextureRender();
   _clock->Tick();
+
 	if (shooting == true) {
 		fire_bullet();
 	}
+
 	_camera->x = Player->x - SCREEN_WIDTH/2;
 	_camera->y = Player->y - SCREEN_HEIGHT/2;
 	_camera->Tick();

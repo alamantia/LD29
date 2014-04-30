@@ -52,11 +52,11 @@ void setup()
 // convert a point to game texture from screen position
 // x1,y1 window
 // x2,y2 screen / game
-AVector2D * convert__window_point(int x1, int y1, int x2, int y2)
+AVector2D * convert_window_point(int x1, int y1, int x2, int y2)
 {
 	AVector2D *p = new AVector2D(0,0);
-
-	float y_real = (float)y1 / (float)(WINDOW_HEIGHT + 20);
+	
+	float y_real = (float)y1 / (float)(WINDOW_HEIGHT);
   float y_screen = SCREEN_HEIGHT * y_real;
 
 	float x_real = (float) x1 / (float) WINDOW_WIDTH;
