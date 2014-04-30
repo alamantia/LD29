@@ -7,6 +7,16 @@ Audio  *_audio;
 Camera *_camera;
 Texture *_texture;
 
+
+
+// game texture width - height
+extern int SCREEN_WIDTH;
+extern int SCREEN_HEIGHT;
+
+// game window width -height
+extern int WINDOW_HEIGHT;
+extern int WINDOW_WIDTH;
+
 int game_mode = 1;
 
 float box_height = 30;
@@ -18,6 +28,43 @@ float UNIT_WIDTH  = 32;
 void setup() 
 {
   return;
+}
+
+/*
+   if (e.type == SDL_MOUSEBUTTONDOWN) {
+    if (me.button == SDL_BUTTON_LEFT) {
+			shooting = true;
+			shooting_mouse= true;
+      printf("Click at %i,%i\n", me.x, me.y);
+      // converts window coords to game texture coords
+			// we need to convert WINDOW position to screen POSITION first! 
+			//float y_real = (float)me.y / (float)(WINDOW_HEIGHT - 40);
+			float y_real = (float)me.y / (float)(WINDOW_HEIGHT + 20);
+      float y_screen = SCREEN_HEIGHT * y_real;
+      float x_real = (float) me.x / (float) WINDOW_WIDTH;
+      float x_screen = SCREEN_WIDTH * x_real;
+			int	  game_x = (int)floor(x_screen + 0.5);
+			int		game_y = (int)floor(y_screen + 0.5);
+    }
+  }
+*/
+
+// convert a point to game texture from screen position
+// x1,y1 window
+// x2,y2 screen / game
+AVector2D * convert__window_point(int x1, int y1, int x2, int y2)
+{
+	AVector2D *p = new AVector2D(0,0);
+
+	float y_real = (float)y1 / (float)(WINDOW_HEIGHT + 20);
+  float y_screen = SCREEN_HEIGHT * y_real;
+
+	float x_real = (float) x1 / (float) WINDOW_WIDTH;
+	float x_screen = SCREEN_WIDTH * x_real;
+
+	p->x = floor(x_screen + 0.5);
+	p->y = floor(y_screen + 0.5);
+	return p;
 }
 
 SDL_Texture* LoadImage(SDL_Renderer *renderer, std::string file){

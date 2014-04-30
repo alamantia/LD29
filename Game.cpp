@@ -387,7 +387,7 @@ void render_bullet(Thing *t)
 	sprintf(fname, "images/brush-37.png",t->subtype);
   SDL_Texture *tex = _texture->GetTexture(fname);
 
-//":"131","r":248,"g":184,"b":248	
+	//":"131","r":248,"g":184,"b":248	
   if (t-> source == SOURCE_PLAYER) {
     SDL_SetTextureColorMod(tex, 131, 248, 184); 
   } else {
@@ -432,8 +432,9 @@ void fire_bullet()
 	
 	if (shooting_mouse) {
 		printf("Mouse fire %i, %i\n", mX, mY);
+		AVector2D *vectorMouseAim = new AVector2D(mX - Player->x, mY - Player->y);
+		// translate to the position we want and fire as needed
 	}
-
 
 	if (SDL_GetTicks() - last_player_bullet < 60) 
 		return;
@@ -575,6 +576,8 @@ void handle_bullets()
 }
 void render_game()
 {
+	if (game_running == false)
+		return;
 	_camera->x = Player->x - SCREEN_WIDTH/2;
 	_camera->y = Player->y - SCREEN_HEIGHT/2;
 

@@ -124,6 +124,7 @@ enum TZ {
   T_RIGHT,
 };
 
+AVector2D * convert__window_point(int x1, int y1, int x2, int y2);
 SDL_Texture* LoadImage(SDL_Renderer *renderer, std::string file);
 void ApplySurface(int x, int y, SDL_Texture *tex, SDL_Renderer *rend);
 void renderTexture(SDL_Texture *tex, SDL_Renderer *ren, int x, int y, int w, int h);
