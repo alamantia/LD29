@@ -424,22 +424,25 @@ void fire_enemy_bullet(int x, int y, int type, AVector2D *direction)
 void fire_bullet() 
 {
 	static int last_player_bullet = 0;
+
 	if (SDL_GetTicks() - last_player_bullet < 60) 
 		return;
+
   last_player_bullet = SDL_GetTicks();
 
 	SDL_PumpEvents();
 	SDL_Cursor* mouse = SDL_GetCursor();
+
 	int mX;
 	int mY;
+
 	SDL_GetMouseState(&mX,&mY);
 	
 	if (shooting_mouse) {
 		AVector2D *mousePosition = convert_window_point(mX, mY, 0,0);
-		AVector2D *vectorMouseAim = new AVector2D(mX - Player->x, (mY - 20) - Player->y);
-		// translate to the position we want and fire as needed
+		AVector2D *vectorMouseAim = new AVector2D(mousePosition->x - POS_X(Player->x), (mousePosition->y - 20) - POS_Y(Player->y));
 		printf("Mouse fire %i, %i\n", mX, mY);
-		printf("Mouse fire %f, %f\n", mousePosition->x, mousePosition->y - 20);
+		printf("Mouse fire %f, %f\n", mousePosition->x, mousePosition->y);
 		AVector2D *vectorMouseAimNormal = vectorMouseAim->Normal();
 
 		Thing *t = new Thing();
@@ -453,7 +456,6 @@ void fire_bullet()
 		t->dir->x = vectorMouseAimNormal->x;
 		t->dir->y = vectorMouseAimNormal->y;
 		gameObjects.push_back(t);
-	
 
 		delete mousePosition;
 		delete vectorMouseAimNormal;
