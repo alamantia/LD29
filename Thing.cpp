@@ -63,7 +63,6 @@ bool Thing::contains_point_box(float bx, float by)
 		return true;
 	 }
   }
-
   return false;
 }
 
@@ -101,16 +100,14 @@ struct animation * Thing::GetAnimation(string name)
 void Thing::AddAnimationFrame(string name, int texture_index, int duration)
 {
   struct animation *animation = GetAnimation(name);
-
   if (animation == nullptr) {
-	animation = new struct animation();
-	animation->name = name;
-	animation->current_frame = 0;
-	animation->last_tick      = SDL_GetTicks();
-	animation->last_tick      = SDL_GetTicks();
-	animations.push_back(animation);
+		animation = new struct animation();
+		animation->name = name;
+		animation->current_frame = 0;
+		animation->last_tick      = SDL_GetTicks();
+		animation->last_tick      = SDL_GetTicks();
+		animations.push_back(animation);
   }
-
   struct animation_frame *frame  = new struct animation_frame();
   frame->texture = texture_index;
   frame->duration = duration;
@@ -152,12 +149,10 @@ SDL_Texture * Thing::GetActiveTexture()
 void Thing::StartAnimation(string name) 
 {
   struct animation *animation = GetAnimation(name);
-  
   if (animation == nullptr) {
 	  printf(" 1 Could not find animation\n");
 	  exit(0);
 	}
- 
   current_animation                 = animation;
   current_animation->running        = true;
   current_animation->last_tick      = SDL_GetTicks();

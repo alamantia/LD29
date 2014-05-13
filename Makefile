@@ -1,4 +1,4 @@
-LIBS  = -lSDL2 -lBox2D -lSDL2_image  -lSDL2_mixer
+LIBS  = -lSDL2 -lSDL2_ttf -lBox2D -lSDL2_image  -lSDL2_mixer
 CFLAGS = -w -ggdb
 
 # Should be equivalent to your list of C files, if you don't build selectively

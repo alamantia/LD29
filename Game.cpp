@@ -30,11 +30,21 @@
 #define ROT_SEGMENTS 12
 #define M_DEGRADE    0.1
 
+
+enum KEYBOARD_DOWN {
+	KB_A = 0,
+	KB_W = 1,
+	KB_S = 2,
+	KB_D = 3,
+};
+
 extern  int   game_mode;
 extern  float box_height;
 extern  float box_width;
 extern  float UNIT_HEIGHT;
 extern  float UNIT_WIDTH;
+
+bool keyboard_status[4];
 
 bool game_running = false;
 
@@ -140,7 +150,6 @@ void draw_background()
   pos.h = SCREEN_HEIGHT;
    SDL_RenderFillRect(_window->renderer, &pos);
   float s_height = WINDOW_WIDTH / 6;
-  // "r":172,"g":124,"b":0
   float r = 12;
   float g = 12;
   float b = 12;
@@ -429,7 +438,6 @@ void fire_bullet()
 		return;
 
   last_player_bullet = SDL_GetTicks();
-
 	SDL_PumpEvents();
 	SDL_Cursor* mouse = SDL_GetCursor();
 
@@ -506,6 +514,7 @@ void dead()
         it = gameObjects.erase(it);
         delete t;
   }
+
   Context::context()->total_health   = 5;
   Context::context()->current_health = 5;
 
@@ -596,7 +605,26 @@ void handle_bullets()
   		gameObjects.erase(where, gameObjects.end());
       //delete *it;
 	}
-  
+}
+
+
+void process_keyboard()
+{
+	if (keyboard_status[KB_W] == true) {
+		printf("moving up\n");
+	}
+
+	if (keyboard_status[KB_A] == true) {
+		printf("moving left\n");
+	}
+
+	if (keyboard_status[KB_S] == true) {
+		printf("moving down\n");
+	}
+
+	if (keyboard_status[KB_D] == true) {
+		printf("moving right\n");
+	}
 }
 void render_game()
 {
@@ -654,6 +682,8 @@ void render_game()
   if (Context::context()->current_health <= 0) {
     dead();
   }
+	
+	process_keyboard();
   return;
 }
 
@@ -734,18 +764,26 @@ void handle_event(SDL_Event e)
 		case SDLK_p: {
       paused = !paused;
     }
+		case SDLK_s:
+		case SDLK_DOWN: {
+			keyboard_status[KB_S] = true;	
+			break;
+		}
     case SDLK_d:
     case SDLK_RIGHT: {
+			keyboard_status[KB_D] = true;
 			vectorAimDelta->x = -(rot_speed); 
       break;
     }
     case SDLK_a:
     case SDLK_LEFT: {
+			keyboard_status[KB_A] = true;
 			vectorAimDelta->x = rot_speed;
       break;
     }	
 		case SDLK_w:
     case SDLK_UP: {  
+			keyboard_status[KB_W] = true;
     	moving_time = SDL_GetTicks();
 			moving = true;		
 			break;
@@ -864,15 +902,6 @@ void gen_world()
 	for (int x = -1000; x < 1000; x += 12) {
 		for (int y = -1000; y < 1000; y += 12) {
 
-/*
-float scaled_octave_noise_2d(  const float octaves,
-                            const float persistence,
-                            const float scale,
-                            const float loBound,
-                            const float hiBound,
-                            const float x,
-                            const float y);
-*/
       float pX = SCREEN_WIDTH/2;
       float pY = SCREEN_HEIGHT/2;
 
@@ -880,7 +909,6 @@ float scaled_octave_noise_2d(  const float octaves,
       float persistence = 0.5;
       float scale = 0.01;
       float v = scaled_octave_noise_2d(octaves, persistence, scale, 0, 10, x, y);
-//      printf("%f\n", v);
 			if (v <= 5.0) {
         if (v <= 2.0) {
           add_enemy(x, y, v);  
@@ -908,7 +936,6 @@ float scaled_octave_noise_2d(  const float octaves,
         add_brick(x, y, 3);
         continue;
       }
-      //add_brick(x,y);
 		}
 	}
 	return;
@@ -923,6 +950,12 @@ void setup_game()
 	vectorCurrent 		= new AVector2D(0,0);
 	vectorPlayer			= new AVector2D(0,0);
 	vectorAimPosition = new AVector2D(0,0);
+
+	// reset the keyboard status
+	keyboard_status[KB_W] = false;
+	keyboard_status[KB_A] = false;
+	keyboard_status[KB_S] = false;
+	keyboard_status[KB_D] = false;
 	
 	tile_width  =  12;
   tile_height =  12;  
